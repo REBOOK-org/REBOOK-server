@@ -42,7 +42,8 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=150)
-    phone = models.CharField(max_length=50, blank=True)
+    password = models.CharField(max_length=200)
+    phone = models.CharField(max_length=50, blank=True, null=True) # country code 
     address = models.CharField(max_length=200, null=True, blank=True)
     date_of_birth = models.DateField(blank=True, null=True)
     is_staff = models.BooleanField(
