@@ -5,7 +5,7 @@ from users.models import User
 
 class Book(models.Model):
     """
-      This book model creating books_book table
+        This book model creating books_book table
     """
     TYPE_OF_SHARING_CHOICES = [
         ('sell', 'Sell'),
@@ -17,7 +17,7 @@ class Book(models.Model):
         ('rented', 'Rented'),
         ('sold', 'Sold'),
         ('donated', 'Donated'),
-        ('in_exchange', 'In Exchange') #
+        ('in_exchange', 'In Exchange')
     ]
 
     CONDITION_CHOICES = [
@@ -25,18 +25,18 @@ class Book(models.Model):
         ('used', 'Used'),
         ('damaged', 'Damaged')
     ]
-    # to-do : book img
+    # todo: Book image --> Pillow
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    author = models.CharField(max_length=255)
-    exchangeable = models.BooleanField(default=False) 
+    author = models.CharField(max_length=255, null=True, blank=True)
+    exchangeable = models.BooleanField(default=False)
     description = models.TextField(blank=True, null=True)
     quantity = models.PositiveIntegerField(default=1)
     type_of_sharing = models.CharField(max_length=10, choices=TYPE_OF_SHARING_CHOICES)
     status = models.CharField(max_length=12, choices=STATUS_CHOICES)
     condition = models.CharField(max_length=10, choices=CONDITION_CHOICES)
     categories = models.ManyToManyField('Categories', related_name='books')
-    
+
     """
     # # Usage example:
     # category = Category.objects.get(pk=1)
@@ -48,8 +48,17 @@ class Book(models.Model):
 
 class Categories(models.Model):
     """
-      This Categories model creating books_categories table
+    This Categories model creating books_categories table
     """
-    name = models.CharField(max_length=50)
+    CATEGORY_CHOICES = [
+        ('fiction', 'Fiction'),
+        ('non-fiction', 'Non-Fiction'),
+        ('fantasy', 'Fantasy'),
+        ('science-fiction', 'Science Fiction'),
+        ('horror', 'Horror'),
+        ('mystery', 'Mystery'),
+    ]
+
+    name = models.CharField(max_length=200, choices=CATEGORY_CHOICES, null=True, blank=True)
     def __str__(self):
-        return self.name
+        return (self.name)

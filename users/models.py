@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.utils import timezone
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
+import uuid
 
 class CustomUserManager(BaseUserManager):
     use_in_migrations = True
@@ -40,6 +40,7 @@ class CustomUserManager(BaseUserManager):
         return self._create_user(email, name, password, **extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=150)
     password = models.CharField(max_length=200)
@@ -65,5 +66,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
+
     def __str__(self):
         return (f'{self.name}')
