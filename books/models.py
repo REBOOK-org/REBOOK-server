@@ -8,7 +8,6 @@ class Book(models.Model):
       This book model creating books_book table
     """
     TYPE_OF_SHARING_CHOICES = [
-        ('rent', 'Rent'),
         ('sell', 'Sell'),
         ('free', 'Free')
     ]
@@ -26,15 +25,18 @@ class Book(models.Model):
         ('used', 'Used'),
         ('damaged', 'Damaged')
     ]
+    # to-do : book img
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
+    exchangeable = models.BooleanField(default=False) 
     description = models.TextField(blank=True, null=True)
     quantity = models.PositiveIntegerField(default=1)
     type_of_sharing = models.CharField(max_length=10, choices=TYPE_OF_SHARING_CHOICES)
     status = models.CharField(max_length=12, choices=STATUS_CHOICES)
     condition = models.CharField(max_length=10, choices=CONDITION_CHOICES)
     categories = models.ManyToManyField('Categories', related_name='books')
+    
     """
     # # Usage example:
     # category = Category.objects.get(pk=1)
