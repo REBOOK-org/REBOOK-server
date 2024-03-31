@@ -4,6 +4,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 import uuid
 
+
 class CustomUserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -39,18 +40,21 @@ class CustomUserManager(BaseUserManager):
 
         return self._create_user(email, name, password, **extra_fields)
 
+
 class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=150)
     password = models.CharField(max_length=200)
-    phone = models.CharField(max_length=50, blank=True, null=True) # country code 
+    phone = models.CharField(max_length=50, blank=True,
+                             null=True)  # country code
     address = models.CharField(max_length=200, null=True, blank=True)
     date_of_birth = models.DateField(blank=True, null=True)
     is_staff = models.BooleanField(
         _("staff status"),
         default=False,
-        help_text=_("Designates whether the user can log into this admin site."),
+        help_text=_(
+            "Designates whether the user can log into this admin site."),
     )
     is_active = models.BooleanField(
         _("active"),
