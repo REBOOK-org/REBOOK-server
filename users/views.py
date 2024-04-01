@@ -6,6 +6,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import User
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework import status
 
 
 class SignUp(APIView):
@@ -16,7 +17,14 @@ class SignUp(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         tokens = TokenObtainPairSerializer().get_token(serializer.instance)
-        return Response({'message': 'success', 'data': serializer.data, 'tokens': {'access': str(tokens.access_token), 'refresh': str(tokens)}})
+        return Response(
+            {
+                'message': 'success', 'data': serializer.data,
+                'tokens': {
+                    'access': str(tokens.access_token), 'refresh': str(tokens)
+                }
+            }, status.HTTP_201_CREATED
+        )
 
 
 class UpdateUser(APIView):
@@ -59,5 +67,18 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
-        # response.data['custom_key'] =
-        return response
+        user = response.data
+        tokens = response.data
+        data = {
+            'message': 'success',
+            'data': {
+                'id': user['id'],
+                'email': user['email'],
+                'name': user['name']
+            },
+            'tokens': {
+                'access': tokens['access'],
+                'refresh': tokens['refresh']
+            }
+        }
+        return Response(data, status.HTTP_200_OK)
