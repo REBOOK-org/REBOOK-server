@@ -76,7 +76,7 @@ class BookImage(models.Model):
 
     book = models.ForeignKey(Book, on_delete=models.SET_NULL,
                              null=True, related_name='book_images')
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, upload_to='books/images')
 
     def __str__(self):
         return f'{self.book.name} Image'

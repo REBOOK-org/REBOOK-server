@@ -51,30 +51,6 @@ class BookDetails(APIView):
         return Response(serializer.data)
 
 
-# # class CreateBook(APIView):
-#     permission_classes = [IsAuthenticated]
-#     authentication_classes = [JWTAuthentication]
-
-#     def post(self, request):
-#         images = request.FILES.getlist('images', [])
-#         request.data.pop('images')
-
-#         owner_id = request.user.id
-#         request.data['owner'] = owner_id
-
-#         serializer = BookSerializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-
-#         for image in images:
-#             image_serializer = ImageSerializer(
-#                 data={'book': serializer.instance.id, 'image': image})
-#             image_serializer.is_valid(raise_exception=True)
-#             image_serializer.save()
-
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
 class DeleteBook(APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
