@@ -19,7 +19,7 @@ class SignUp(APIView):
         tokens = TokenObtainPairSerializer().get_token(serializer.instance)
         return Response(
             {
-                'message': 'success', 'data': serializer.data,
+                'message': 'success', 'user': serializer.data,
                 'tokens': {
                     'access': str(tokens.access_token), 'refresh': str(tokens)
                 }
@@ -40,7 +40,7 @@ class UpdateUser(APIView):
             user, data=request.data, context={'update': True})
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response({'message': 'success', 'data': serializer.data})
+        return Response({'message': 'success', 'user': serializer.data})
 
 
 class AllUsers(APIView):
@@ -71,7 +71,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         tokens = response.data
         data = {
             'message': 'success',
-            'data': {
+            'user': {
                 'id': user['id'],
                 'email': user['email'],
                 'name': user['name']
