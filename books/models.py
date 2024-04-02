@@ -31,8 +31,10 @@ class Book(models.Model):
     exchangeable = models.BooleanField(default=False)
     description = models.TextField(blank=True, null=True)
     quantity = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.00)
     type_of_sharing = models.CharField(
-        max_length=10, choices=TYPE_OF_SHARING_CHOICES)
+        max_length=10, choices=TYPE_OF_SHARING_CHOICES, default='free')
     status = models.CharField(
         max_length=12, choices=STATUS_CHOICES, default='available')
     condition = models.CharField(max_length=10, choices=CONDITION_CHOICES)
