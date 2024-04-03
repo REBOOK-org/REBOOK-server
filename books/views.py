@@ -114,4 +114,4 @@ class CategoriesList(APIView):
     def get(self, request):
         categories = Categories.objects.all()
         serializer = CategoriesSerializer(categories, many=True)
-        return Response({'cateteries': serializer.data}, status=status.HTTP_200_OK)
+        return Response({'categories': serializer.data}, status=status.HTTP_200_OK)
