@@ -26,9 +26,9 @@ class Books(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        images = request.FILES.getlist('images', [])
-        if 'images' in request.data:
-            request.data.pop('images')
+        images = request.data.get('images', [])
+        if images:
+            images = request.data.pop('images')
 
         owner_id = request.user.id
         request.data['owner'] = owner_id
